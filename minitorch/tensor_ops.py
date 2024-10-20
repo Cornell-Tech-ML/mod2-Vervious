@@ -41,7 +41,9 @@ class TensorOps:
     @staticmethod
     def reduce(
         fn: Callable[[float, float], float], start: float = 0.0
-    ) -> Callable[[Tensor, int], Tensor]: ...
+    ) -> Callable[[Tensor, int], Tensor]: 
+        """Reduce placeholder"""
+        ...
 
     @staticmethod
     def matrix_multiply(a: Tensor, b: Tensor) -> Tensor:
@@ -194,6 +196,7 @@ class SimpleOps(TensorOps):
 
         Args:
             fn: function from two floats-to-float to apply
+            start: starting value for reduction
             a (:class:`TensorData`): tensor to reduce over
             dim (int): int of dim to reduce
 
@@ -261,8 +264,20 @@ def tensor_map(
         in_shape: Shape,
         in_strides: Strides,
     ) -> None:
-        # TODO: Implement for Task 2.3.
-        raise NotImplementedError("Need to implement for Task 2.3")
+        
+        # Loop over everything (inefficient for now)
+        out_index: Index = np.array(out_shape)
+        for i in range(len(out)):
+            # iterate over all possible out_indices
+            to_index(i, out_shape, out_index)
+
+            # get corresponding in_index
+            in_index: Index = np.array(in_shape)
+            broadcast_index(out_index, out_shape, in_shape, in_index)
+
+            in_ordinal = index_to_position(in_index, in_strides)
+            out_ordinal = index_to_position(out_index, out_strides)
+            out[out_ordinal] = fn(in_storage[in_ordinal])
 
     return _map
 
