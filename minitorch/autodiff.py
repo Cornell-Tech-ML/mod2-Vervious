@@ -77,34 +77,20 @@ def topological_sort(variable: Variable) -> Iterable[Variable]:
 
     """
     out = []
-    blockers = {}
     visited = set()
 
     def _visit(v: Variable) -> None:
-        for p in v.parents:
-            if p.unique_id not in blockers:
-                blockers[p.unique_id] = set()
-            blockers[p.unique_id].add(v.unique_id)
-            if p.unique_id not in visited:
-                visited.add(p.unique_id)
-                _visit(p)
+        if v.unique_id in visited or v.is_constant():
+            return
+        if not v.is_leaf():
+            for p in v.parents:
+                if not p.is_constant():
+                    _visit(p)
+        visited.add(v.unique_id)
+        out.insert(0, v)
 
     # build a graph
     _visit(variable)
-
-    # run the actual topological sort algorithm
-    poppable = [variable]
-    while len(poppable) > 0:
-        item = poppable.pop()
-        out.append(item)
-        for p in item.parents:
-            # item.unique_id may not be in blockers if previously removed,
-            # e.g. if p was in item.parents multiple times.
-            if item.unique_id in blockers[p.unique_id]:
-                blockers[p.unique_id].remove(item.unique_id)
-                if len(blockers[p.unique_id]) == 0:
-                    poppable.append(p)
-
     return out
 
 
@@ -132,6 +118,8 @@ def backpropagate(variable: Variable, deriv: Any) -> None:
             var.accumulate_derivative(dLdKey[var.unique_id])
         else:
             for parent, dLdParent in var.chain_rule(dLdKey[var.unique_id]):
+                if parent.is_constant():
+                    continue
                 dLdKey[parent.unique_id] = dLdKey.get(parent.unique_id, 0.0) + dLdParent
 
 

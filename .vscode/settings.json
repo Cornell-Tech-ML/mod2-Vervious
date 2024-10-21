@@ -1,6 +1,6 @@
 {
     "python.testing.pytestArgs": [
-        "minitorch"
+        "tests"
     ],
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true

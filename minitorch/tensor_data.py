@@ -110,18 +110,19 @@ def shape_broadcast(shape1: UserShape, shape2: UserShape) -> UserShape:
     if len(shape2) > len(shape1):
         shape1, shape2 = shape2, shape1
 
-    outshape = []*len(shape1)
+    outshape = [0]*len(shape1)
     base = len(shape1) - len(shape2)
     for i in range(max(len(shape1), len(shape2))):
-        if i < base:
-            outshape[i] = shape1[i]
+        j = -1 - i
+        if len(shape1) + j < base:
+            outshape[j] = shape1[j]
             continue
 
-        if shape1[i] == 1 or shape2[i] == 1 or shape1[i] == shape2[i]:
-            outshape[i] = max(shape1[i], shape2[i])
+        if shape1[j] == 1 or shape2[j] == 1 or shape1[j] == shape2[j]:
+            outshape[j] = max(shape1[j], shape2[j])
         else:
             raise IndexingError(f"Shapes {shape1} {shape2} are not broadcastable.")
-    return outshape
+    return tuple(outshape)
 
 
 def strides_from_shape(shape: UserShape) -> UserStrides:
@@ -255,7 +256,7 @@ class TensorData:
             range(len(self.shape))
         ), f"Must give a position to each dimension. Shape: {self.shape} Order: {order}"
 
-        return TensorData(self._storage, tuple(self.shape[i] for i in order))
+        return TensorData(self._storage, tuple(self.shape[i] for i in order), tuple(self.strides[i] for i in order))
 
     def to_string(self) -> str:
         """Convert to string"""
