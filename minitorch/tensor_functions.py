@@ -134,13 +134,13 @@ class Sigmoid(Function):
     def forward(ctx: Context, t1: Tensor) -> Tensor:
         """Apply sigmoid."""
         out = t1.f.sigmoid_map(t1)
-        ctx.save_for_backward(out, t1)
+        ctx.save_for_backward(out)
         return out
 
     @staticmethod
     def backward(ctx: Context, grad_output: Tensor) -> Tensor:
         """Backward for sigmoid."""
-        (out, t1) = ctx.saved_values
+        (out, ) = ctx.saved_values
         # out * (1 - out) * c
         # Why do this? I don't want to store context or history in backwards operations
         minus1 = minitorch.Tensor.make([-1.0], (1,), backend=grad_output.backend)
