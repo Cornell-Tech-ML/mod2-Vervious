@@ -113,6 +113,7 @@ class All(Function):
 
 # Implemented functions for Task 2.3.
 
+
 class Mul(Function):
     @staticmethod
     def forward(ctx: Context, t1: Tensor, t2: Tensor) -> Tensor:
@@ -133,17 +134,17 @@ class Sigmoid(Function):
     def forward(ctx: Context, t1: Tensor) -> Tensor:
         """Apply sigmoid."""
         out = t1.f.sigmoid_map(t1)
-        ctx.save_for_backward(out,t1)
+        ctx.save_for_backward(out, t1)
         return out
 
     @staticmethod
     def backward(ctx: Context, grad_output: Tensor) -> Tensor:
         """Backward for sigmoid."""
-        (out,t1) = ctx.saved_values
+        (out, t1) = ctx.saved_values
         # out * (1 - out) * c
         # Why do this? I don't want to store context or history in backwards operations
-        minus1 = minitorch.Tensor.make([-1.], (1,), backend=grad_output.backend)
-        pos1 = minitorch.Tensor.make([1.], (1,), backend=grad_output.backend)
+        minus1 = minitorch.Tensor.make([-1.0], (1,), backend=grad_output.backend)
+        pos1 = minitorch.Tensor.make([1.0], (1,), backend=grad_output.backend)
         minusout = out.f.mul_zip(out, minus1)
         oneminusout = out.f.add_zip(minusout, pos1)
         outoneminusout = out.f.mul_zip(out, oneminusout)
@@ -207,7 +208,7 @@ class Sum(Function):
     @staticmethod
     def backward(ctx: Context, grad_output: Tensor) -> Tuple[Tensor, float]:
         """Backward for sum with dim."""
-        old_shape, = ctx.saved_values
+        (old_shape,) = ctx.saved_values
         tWantedSize = grad_output.zeros(old_shape)
         # use broadcasting to expand the gradient
         numerical_out = grad_output.f.add_zip(grad_output, tWantedSize)
@@ -253,22 +254,21 @@ class Permute(Function):
         original_shape = t1._tensor.shape
         ctx.save_for_backward(original_shape, original_strides)
         _order = [int(order[i]) for i in range(order.size)]
-        return minitorch.Tensor(
-            t1._tensor.permute(*_order),
-            backend=t1.backend
-        )
-    
+        return minitorch.Tensor(t1._tensor.permute(*_order), backend=t1.backend)
+
     @staticmethod
     def backward(ctx: Context, grad_output: Tensor) -> Tuple[Tensor, float]:
         """Backward for permute."""
         original_shape, original_strides = ctx.saved_values
         return (
             minitorch.Tensor.make(
-                grad_output._tensor._storage, original_shape, strides=original_strides, backend=grad_output.backend
+                grad_output._tensor._storage,
+                original_shape,
+                strides=original_strides,
+                backend=grad_output.backend,
             ),
             0.0,
         )
-
 
 
 class View(Function):
