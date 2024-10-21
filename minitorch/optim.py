@@ -29,6 +29,7 @@ class SGD(Optimizer):
     def step(self) -> None:
         """Update the parameters"""
         for p in self.parameters:
+            # print("GRAD:",  p.value.name, p.value.unique_id,p.value.grad, p.value.is_leaf())
             if p.value is None:
                 continue
             if hasattr(p.value, "derivative"):

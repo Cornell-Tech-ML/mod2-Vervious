@@ -235,6 +235,7 @@ class Tensor:
                 self.shape,
                 backend=self.backend,
             )
+        # print("+GRAD", self.name, self.unique_id)
         self.grad += x
 
     def is_leaf(self) -> bool:

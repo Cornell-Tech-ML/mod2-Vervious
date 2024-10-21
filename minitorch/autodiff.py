@@ -114,7 +114,6 @@ def backpropagate(variable: Variable, deriv: Any) -> None:
     for var in schedule:
         # note that the first var should be variable
         if var.is_leaf():
-            # print(f"dLdKey {dLdKey}")
             var.accumulate_derivative(dLdKey[var.unique_id])
         else:
             for parent, dLdParent in var.chain_rule(dLdKey[var.unique_id]):
