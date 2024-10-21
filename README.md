@@ -232,66 +232,68 @@ Images:
 
 ## Xor Model
 
+Note that at this point, I switched to using RParam instead of my original, which just called rand() and did not recenter the mean. This seems to do much better.
+
 Parameters:
 
-    PTS = 80
+    PTS = 90
     DATASET = minitorch.datasets["Xor"](PTS)
-    HIDDEN = 6
+    HIDDEN = 8
     RATE = 0.5
 
 Log:
 
     Epoch: 0/500, loss: 0, correct: 0
-    Epoch: 10/500, loss: 49.09923021586721, correct: 48
-    Epoch: 20/500, loss: 45.1100866130393, correct: 61
-    Epoch: 30/500, loss: 39.831901960180055, correct: 69
-    Epoch: 40/500, loss: 34.811831907292984, correct: 69
-    Epoch: 50/500, loss: 30.630520232016938, correct: 70
-    Epoch: 60/500, loss: 31.12011916779207, correct: 65
-    Epoch: 70/500, loss: 26.275978376180316, correct: 71
-    Epoch: 80/500, loss: 24.10176440721233, correct: 72
-    Epoch: 90/500, loss: 24.153893182646826, correct: 71
-    Epoch: 100/500, loss: 22.256547073471268, correct: 70
-    Epoch: 110/500, loss: 16.175819292492044, correct: 75
-    Epoch: 120/500, loss: 21.560661999142027, correct: 72
-    Epoch: 130/500, loss: 13.043151071902756, correct: 76
-    Epoch: 140/500, loss: 11.473270813904549, correct: 77
-    Epoch: 150/500, loss: 11.594271593294582, correct: 75
-    Epoch: 160/500, loss: 10.955987282786134, correct: 75
-    Epoch: 170/500, loss: 11.982216453651928, correct: 76
-    Epoch: 180/500, loss: 8.00569983791093, correct: 79
-    Epoch: 190/500, loss: 7.203885924026894, correct: 79
-    Epoch: 200/500, loss: 6.760642941771417, correct: 79
-    Epoch: 210/500, loss: 7.761531572811856, correct: 77
-    Epoch: 220/500, loss: 7.412261022210462, correct: 77
-    Epoch: 230/500, loss: 6.764547695031046, correct: 77
-    Epoch: 240/500, loss: 6.021315070027755, correct: 77
-    Epoch: 250/500, loss: 5.610709242944872, correct: 78
-    Epoch: 260/500, loss: 5.291932189747587, correct: 78
-    Epoch: 270/500, loss: 4.872199955961023, correct: 79
-    Epoch: 280/500, loss: 4.420760622895471, correct: 79
-    Epoch: 290/500, loss: 3.859335349599387, correct: 79
-    Epoch: 300/500, loss: 3.5498510412545787, correct: 80
-    Epoch: 310/500, loss: 3.3622107522426004, correct: 80
-    Epoch: 320/500, loss: 3.2045410382713806, correct: 80
-    Epoch: 330/500, loss: 3.073954234688987, correct: 80
-    Epoch: 340/500, loss: 2.9553578658010413, correct: 80
-    Epoch: 350/500, loss: 2.8466962036502634, correct: 80
-    Epoch: 360/500, loss: 2.7616575871435622, correct: 80
-    Epoch: 370/500, loss: 2.672461826308091, correct: 80
-    Epoch: 380/500, loss: 2.5751743130954114, correct: 80
-    Epoch: 390/500, loss: 2.4913786662229684, correct: 80
-    Epoch: 400/500, loss: 2.415676311426365, correct: 80
-    Epoch: 410/500, loss: 2.3454795799287407, correct: 80
-    Epoch: 420/500, loss: 2.2860924303649393, correct: 80
-    Epoch: 430/500, loss: 2.221265020543546, correct: 80
-    Epoch: 440/500, loss: 2.162472107647389, correct: 80
-    Epoch: 450/500, loss: 2.1074375759992945, correct: 80
-    Epoch: 460/500, loss: 2.0597158631645205, correct: 80
-    Epoch: 470/500, loss: 2.0125353690273733, correct: 80
-    Epoch: 480/500, loss: 1.9908330774702843, correct: 80
-    Epoch: 490/500, loss: 2.0101010226649354, correct: 79
-    Epoch: 500/500, loss: 2.1341354938703425, correct: 79
+    Epoch: 10/500, loss: 60.666510891515216, correct: 55
+    Epoch: 20/500, loss: 58.919450256363646, correct: 55
+    Epoch: 30/500, loss: 56.87044942927245, correct: 55
+    Epoch: 40/500, loss: 55.44319779328784, correct: 55
+    Epoch: 50/500, loss: 53.63411378725782, correct: 55
+    Epoch: 60/500, loss: 51.488446924166794, correct: 63
+    Epoch: 70/500, loss: 61.408534630377446, correct: 45
+    Epoch: 80/500, loss: 48.91109802030681, correct: 74
+    Epoch: 90/500, loss: 50.30223016784453, correct: 67
+    Epoch: 100/500, loss: 47.57993214470271, correct: 66
+    Epoch: 110/500, loss: 46.06846633379323, correct: 65
+    Epoch: 120/500, loss: 45.727304048157514, correct: 64
+    Epoch: 130/500, loss: 43.053838253323484, correct: 67
+    Epoch: 140/500, loss: 45.58842579983267, correct: 66
+    Epoch: 150/500, loss: 38.349791306512095, correct: 71
+    Epoch: 160/500, loss: 43.57084457553834, correct: 66
+    Epoch: 170/500, loss: 37.54770612137232, correct: 71
+    Epoch: 180/500, loss: 37.68544710550717, correct: 71
+    Epoch: 190/500, loss: 37.35795281117378, correct: 71
+    Epoch: 200/500, loss: 34.983976122168045, correct: 73
+    Epoch: 210/500, loss: 35.154377958474164, correct: 74
+    Epoch: 220/500, loss: 37.79057707757425, correct: 72
+    Epoch: 230/500, loss: 32.92176877560897, correct: 75
+    Epoch: 240/500, loss: 34.45542347513146, correct: 74
+    Epoch: 250/500, loss: 32.545498085687086, correct: 75
+    Epoch: 260/500, loss: 33.87909189737113, correct: 74
+    Epoch: 270/500, loss: 34.44433674258542, correct: 72
+    Epoch: 280/500, loss: 32.73111106898863, correct: 73
+    Epoch: 290/500, loss: 31.492244399980112, correct: 75
+    Epoch: 300/500, loss: 31.763336313299046, correct: 74
+    Epoch: 310/500, loss: 31.624436246392932, correct: 74
+    Epoch: 320/500, loss: 30.373124710018548, correct: 76
+    Epoch: 330/500, loss: 31.14543384512887, correct: 74
+    Epoch: 340/500, loss: 28.710443159623303, correct: 76
+    Epoch: 350/500, loss: 33.02500907882589, correct: 72
+    Epoch: 360/500, loss: 26.43722805315093, correct: 78
+    Epoch: 370/500, loss: 28.59348278512207, correct: 75
+    Epoch: 380/500, loss: 32.30019593119725, correct: 72
+    Epoch: 390/500, loss: 22.587649715304643, correct: 81
+    Epoch: 400/500, loss: 44.48742740942838, correct: 65
+    Epoch: 410/500, loss: 18.407830760046558, correct: 85
+    Epoch: 420/500, loss: 65.26154544771254, correct: 60
+    Epoch: 430/500, loss: 17.91570041916815, correct: 86
+    Epoch: 440/500, loss: 16.27239565463117, correct: 86
+    Epoch: 450/500, loss: 45.51260582964273, correct: 65
+    Epoch: 460/500, loss: 16.463931250263037, correct: 86
+    Epoch: 470/500, loss: 15.41605207098817, correct: 86
+    Epoch: 480/500, loss: 77.08203913021042, correct: 59
+    Epoch: 490/500, loss: 14.661494015069383, correct: 86
+    Epoch: 500/500, loss: 13.210031641792606, correct: 86
 
 Images:
 

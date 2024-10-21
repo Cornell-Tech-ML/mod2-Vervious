@@ -31,9 +31,11 @@ class Linear(minitorch.Module):
     def __init__(self, in_size, out_size):
         super().__init__()
 
-        self.weights = self.add_parameter("weights", minitorch.rand((in_size, out_size), requires_grad=True))
+        self.weights = RParam(in_size, out_size)
+        self.weights.name = "weights"
 
-        self.bias = self.add_parameter("bias", minitorch.rand((out_size, ), requires_grad=True))
+        self.bias = RParam(out_size,)
+        self.bias.name = "bias"
 
 
     def forward(self, inputs):
